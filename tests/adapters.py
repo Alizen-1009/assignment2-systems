@@ -5,8 +5,10 @@ from typing import Type
 import torch
 
 from cs336_systems.flash_attention_pytorch import (
-    FlashAttentionPytorch,
     get_flashattention_autograd_function_pytorch as _get_flashattention_autograd_function_pytorch,
+)
+from cs336_systems.flash_attention_triton import (
+    get_flashattention_autograd_function_triton as _get_flashattention_autograd_function_triton,
 )
 
 
@@ -34,8 +36,7 @@ def get_flashattention_autograd_function_triton() -> Type:
     Returns:
         A class object (not an instance of the class)
     """
-    # Temporary fallback while the Triton kernel is still being built.
-    return FlashAttentionPytorch
+    return _get_flashattention_autograd_function_triton()
 
 
 def get_ddp_individual_parameters(module: torch.nn.Module) -> torch.nn.Module:
